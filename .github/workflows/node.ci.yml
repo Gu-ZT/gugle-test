@@ -28,6 +28,14 @@ jobs:
       - name: Echo Version
         id: echo-version
         run: echo ${{ steps.gen-version.outputs.updated_version }}
+      - name: Set Version
+        run: node .github/script/json.js ./package.json version set ${{ steps.gen-version.outputs.updated_version }}
+      - name: Get Version 2
+        id: get-version-2
+        run: node .github/script/json.js ./package.json version get version_2 >> $GITHUB_OUTPUT
+      - name: Echo Version 2
+        id: echo-version-2
+        run: echo ${{ steps.get-version-2.outputs.updated_version_2 }}
       - name: Setup pnpm
         run: npm i -g pnpm
       - name: Install typescript
