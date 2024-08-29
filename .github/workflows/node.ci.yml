@@ -1,15 +1,7 @@
 name: Publish Node.js Package
 
 on:
-  push:
-    branches:
-      - releases/**
-    paths:
-      - .github/**
-      - src/**
-      - .babelrc
-      - .env.dev
-      - .env.prod
+  push
 
 jobs:
   build:
