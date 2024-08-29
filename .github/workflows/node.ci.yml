@@ -10,7 +10,11 @@ on:
       - .babelrc
       - .env.dev
       - .env.prod
-      - .gitattributes
+      - .prettierrc.js
+      - eslint.config.mjs
+      - nodemon.json
+      - package.json
+      - tsconfig.json
 
 jobs:
   build:
