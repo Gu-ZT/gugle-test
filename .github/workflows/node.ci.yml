@@ -30,7 +30,7 @@ jobs:
       - name: Install typescript
         run: npm i -g typescript
       - name: Init project
-        run: pnpm ci
+        run: pnpm i
       - name: Build project
         run: tsc src/index.ts && tsc --declaration src/index.ts
 #      - name: Push to npm repository
