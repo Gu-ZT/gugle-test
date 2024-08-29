@@ -1,6 +1,12 @@
 name: Publish Node.js Package
 
-on: push
+on:
+  push:
+    branches:
+      - releases/**
+    paths:
+      - .github/**
+      - src/**
 
 jobs:
   build:
