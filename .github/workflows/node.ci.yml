@@ -20,9 +20,11 @@ jobs:
         id: get-version
         run: node .github/script/json.js ./package.json version get version >> $GITHUB_OUTPUT
       - name: Echo Version
+        id: gen-version
         run: |
-          echo ${{ steps.get-number.outputs.build_number }}
-          echo ${{ steps.get-version.outputs.version }}
+          UPDATED_VERSION=$(echo ${{steps.get-version.outputs.version}} | sed "s/\([0-9]*\.[0-9]*\.\)[0-9]*/\1${{steps.get-version.outputs.version}}/")
+          echo "updated_version=$UPDATED_VERSION" >> $GITHUB_OUTPUT
+          echo ${{ steps.gen-version.outputs.updated_version }}
       - name: Setup pnpm
         run: npm i -g pnpm
       - name: Install typescript
