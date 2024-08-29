@@ -22,7 +22,7 @@ jobs:
       - name: Echo Version
         id: gen-version
         run: |
-          UPDATED_VERSION=$(echo ${{steps.get-version.outputs.version}} | sed "s/\([0-9]*\.[0-9]*\.\)[0-9]*/\1${{steps.get-version.outputs.version}}/")
+          UPDATED_VERSION=$(echo $steps.get-version.outputs.version | sed "s/\([0-9]*\.[0-9]*\.\)[0-9]*/\1$steps.get-number.outputs.build_number/")
           echo "updated_version=$UPDATED_VERSION" >> $GITHUB_OUTPUT
           echo ${{ steps.gen-version.outputs.updated_version }}
       - name: Setup pnpm
