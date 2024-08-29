@@ -9,6 +9,7 @@ on:
       - src/**
       - .babelrc
       - .env.dev
+      - .env.prod
 
 jobs:
   build:
