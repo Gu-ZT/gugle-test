@@ -1,0 +1,50 @@
+name: Publish Node.js Package
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm test
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+      - name: Get Build Number
+        id: get-number
+        run: echo "build_number=$GITHUB_RUN_NUMBER" >> $GITHUB_OUTPUT
+      - name: Get Version
+        id: get-version
+        run: node .github/script/json.js ./package.json version get version >> $GITHUB_OUTPUT
+      - name: Echo Version
+        run: |
+          echo ${{ steps.get-number.outputs.build_number }}
+          echo ${{ steps.get-version.outputs.version }}
+      - name: Setup pnpm
+        run: npm i -g pnpm
+      - name: Install typescript
+        run: npm i -g typescript
+      - name: Init project
+        run: pnpm ci
+      - name: Build project
+        run: tsc src/index.ts && tsc --declaration src/index.ts
+#      - name: Push to npm repository
+#        run: npm publish
+#        env:
+#          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
